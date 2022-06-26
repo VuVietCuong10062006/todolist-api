@@ -1,5 +1,26 @@
 {
-  "todos": [],
+  "todos": [
+    {
+      "title": "a",
+      "status": false,
+      "id": 1
+    },
+    {
+      "title": "b",
+      "status": true,
+      "id": 2
+    },
+    {
+      "title": "c",
+      "status": true,
+      "id": 3
+    },
+    {
+      "title": "d",
+      "status": false,
+      "id": 4
+    }
+  ],
   "products": [
     {
       "id": 1,

@@ -125,4 +125,67 @@ btnAdd.addEventListener("click", () => {
 //     addTodo();
 //   }
 // });
+
+
+// update 
+let idUpdate = null
+let getTitle = (id) =>{
+    let tittle
+    let todo = todos.find(todo => todo.id == id)
+    tittle = todo.title
+    todoInputEl.value = tittle
+    todoInputEl.focus()
+    idUpdate = id
+    btnAdd.style.display = 'none'
+    btnUpdate.style.display = 'inline-block'
+}
+
+btnUpdate.addEventListener('click',async (e) =>{
+    try {
+      let newTittle = todoInputEl.value
+      let todo = todos.find(todo => todo.id == idUpdate)
+      todo.title = newTittle
+      await axios.put(`/todos/${idUpdate}`, todo)
+      renderTodo(todos)
+      todoInputEl.value = '' 
+      btnAdd.style.display = 'inline-block'
+      btnUpdate.style.display = 'none'
+    } catch(error){
+      console.log(error)
+    }
+})
+
+// lọc công việc theo trạng thái 
+Array.from(todoOptionEls).forEach(input =>{
+    input.addEventListener('change', async () =>{
+      try{
+        let option = input.value
+        let todoFileter = []
+        switch(option){
+            case 'all':{
+              todoFileter = await axios.get("http://localhost:3000/todos")
+              break
+            }
+            case 'active':{
+              todoFileter = await axios.get("http://localhost:3000/todos?status=true")
+              break
+            }
+            case 'unactive':{
+              todoFileter = await axios.get("http://localhost:3000/todos?status=false")
+              break
+            }
+            default :{
+              todoFileter = await axios.get("http://localhost:3000/todos")
+              break
+            }
+        }
+
+        renderTodo(todoFileter.data)
+
+      } catch(error){
+        console.log(error)
+      }
+        
+    })
+})
 getTodos();
